@@ -1,0 +1,72 @@
+{
+  "engagement_id": "northstar-vmware-azure-001",
+  "customer": "Synthetic Northstar Manufacturing",
+  "assumptions": [
+    "120 VMware virtual machines are in scope",
+    "Monthly avoided VMware, hardware and support cost is supplied as a modeled assumption",
+    "Revenue uplift is an unvalidated management estimate",
+    "Azure prices and license benefits require regional validation before contracting"
+  ],
+  "weights": {
+    "availability": 0.30,
+    "security": 0.25,
+    "operability": 0.30,
+    "portability": 0.15
+  },
+  "requirements": [
+    {"id": "BUS-001", "statement": "Reduce infrastructure lead time from weeks to hours", "category": "business", "priority": "must", "acceptance_test": "Provision an approved environment from Git within four hours"},
+    {"id": "PLT-001", "statement": "Host production AI agents on Kubernetes", "category": "platform", "priority": "must", "acceptance_test": "AKS workload passes availability and sandbox tests"},
+    {"id": "NET-001", "statement": "Use private hybrid connectivity and deterministic DNS", "category": "network", "priority": "must", "acceptance_test": "Private Endpoint DNS and route probes pass"},
+    {"id": "SEC-001", "statement": "Use workload identity and centralized secrets", "category": "security", "priority": "must", "acceptance_test": "No static cloud credential exists in workloads"},
+    {"id": "OPS-001", "statement": "Meet a four-hour RTO and one-hour RPO", "category": "operations", "priority": "must", "acceptance_test": "Documented recovery exercise meets both targets"},
+    {"id": "COM-001", "statement": "Provide auditable three-year unit economics", "category": "commercial", "priority": "must", "acceptance_test": "Finance approves assumptions and cost model"},
+    {"id": "GRC-001", "statement": "Map technical evidence to ISO 27001 and ISO 42001 controls", "category": "security", "priority": "should", "acceptance_test": "Control owner approves evidence mapping"}
+  ],
+  "options": [
+    {
+      "id": "lift-shift",
+      "name": "Azure VMware Solution lift-and-shift",
+      "services": ["Azure VMware Solution", "ExpressRoute", "Azure Monitor"],
+      "supported_requirements": ["BUS-001", "NET-001", "OPS-001", "COM-001"],
+      "availability_score": 4,
+      "security_score": 3,
+      "operability_score": 3,
+      "portability_score": 2,
+      "economics": {"implementation_usd": 125000, "monthly_cloud_usd": 58000, "monthly_operations_usd": 18000, "monthly_avoided_cost_usd": 76000, "monthly_revenue_uplift_usd": 7000, "confidence": "low"},
+      "risks": ["Does not satisfy the Kubernetes AI platform or workload-identity requirements"]
+    },
+    {
+      "id": "azure-modernized",
+      "name": "Azure landing zone with AKS modernization",
+      "services": ["Azure Landing Zone", "AKS", "Azure Arc", "Private Link", "Key Vault", "Azure Monitor", "Azure OpenAI or NVIDIA NIM", "PostgreSQL Flexible Server"],
+      "supported_requirements": ["BUS-001", "PLT-001", "NET-001", "SEC-001", "OPS-001", "COM-001", "GRC-001"],
+      "availability_score": 5,
+      "security_score": 5,
+      "operability_score": 4,
+      "portability_score": 4,
+      "economics": {"implementation_usd": 210000, "monthly_cloud_usd": 41000, "monthly_operations_usd": 22000, "monthly_avoided_cost_usd": 76000, "monthly_revenue_uplift_usd": 28000, "confidence": "medium"},
+      "risks": ["Application dependency discovery is incomplete", "GPU demand and model-token volume require measurement", "Recovery targets remain unproven until an authorized exercise"]
+    },
+    {
+      "id": "multicloud-portable",
+      "name": "Portable Kubernetes platform across Azure and on-premises",
+      "services": ["AKS", "Azure Arc", "OpenTofu", "Cilium", "OpenTelemetry", "NVIDIA NIM"],
+      "supported_requirements": ["BUS-001", "PLT-001", "NET-001", "SEC-001", "OPS-001", "COM-001", "GRC-001"],
+      "availability_score": 4,
+      "security_score": 4,
+      "operability_score": 3,
+      "portability_score": 5,
+      "economics": {"implementation_usd": 285000, "monthly_cloud_usd": 36000, "monthly_operations_usd": 31000, "monthly_avoided_cost_usd": 76000, "monthly_revenue_uplift_usd": 25000, "confidence": "low"},
+      "risks": ["Higher operating complexity", "Cross-environment support ownership must be explicit"]
+    }
+  ],
+  "traceability": {
+    "BUS-001": {"component": "GitOps environment factory", "control": "Approved templates and deployment SLO", "validation": "Timed ephemeral environment test", "cost_line": "Platform engineering", "deliverable": "Golden-path repository", "evidence_class": "simulated"},
+    "PLT-001": {"component": "Private AKS and Agent Sandbox", "control": "Pod security and workload isolation", "validation": "Conformance and failure-recovery suite", "cost_line": "AKS compute", "deliverable": "AI agent platform", "evidence_class": "contract"},
+    "NET-001": {"component": "ExpressRoute, hub-spoke network and Private DNS", "control": "Default-deny segmentation", "validation": "Route, DNS and private endpoint probes", "cost_line": "Network and egress", "deliverable": "Hybrid network architecture", "evidence_class": "contract"},
+    "SEC-001": {"component": "Entra Workload ID and Key Vault", "control": "Short-lived least-privilege identity", "validation": "Credential and role-assignment scan", "cost_line": "Security platform", "deliverable": "Identity and secrets design", "evidence_class": "contract"},
+    "OPS-001": {"component": "Azure Backup, paired-region recovery and OpenTelemetry", "control": "Recovery runbook and observability SLO", "validation": "Authorized recovery exercise", "cost_line": "Resilience and operations", "deliverable": "BCDR runbook", "evidence_class": "contract"},
+    "COM-001": {"component": "Cost Management and unit-economics model", "control": "Named assumption owners", "validation": "Finance review and actual-cost reconciliation", "cost_line": "All services", "deliverable": "Three-year TCO model", "evidence_class": "modeled"},
+    "GRC-001": {"component": "Evidence normalization pipeline", "control": "ISO control crosswalk", "validation": "Control-owner and auditor review", "cost_line": "Assurance operations", "deliverable": "Control evidence matrix", "evidence_class": "contract"}
+  }
+}
