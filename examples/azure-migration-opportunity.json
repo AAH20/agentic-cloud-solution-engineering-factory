@@ -1,0 +1,15 @@
+{
+  "opportunity_id": "opp-azure-001",
+  "customer": "Synthetic regional SaaS provider",
+  "estimated_contract_value_usd": 75000,
+  "criteria": {
+    "problem_urgency": {"state": "confirmed", "evidence": "VMware renewal decision required this quarter"},
+    "budget_confirmed": {"state": "partial", "evidence": "CFO supplied a range; consumption budget remains open"},
+    "decision_owner": {"state": "confirmed", "evidence": "CTO owns technical acceptance and CFO owns budget"},
+    "delivery_deadline": {"state": "confirmed", "evidence": "Production migration required before renewal date"},
+    "technical_inventory": {"state": "partial", "evidence": "VM inventory received; application dependencies outstanding"},
+    "success_metrics": {"state": "confirmed", "evidence": "RTO, RPO, migration window and cost ceiling documented"},
+    "delivery_capacity": {"state": "confirmed", "evidence": "Application, network and security SMEs assigned"},
+    "commercial_fit": {"state": "confirmed", "evidence": "Contract value exceeds provider qualification threshold"}
+  }
+}

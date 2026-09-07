@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://a2zsoc.com/schemas/technical-opportunity-v1.json",
+  "title": "Technical Opportunity Qualification",
+  "type": "object",
+  "required": ["opportunity_id", "customer", "estimated_contract_value_usd", "criteria"],
+  "properties": {
+    "opportunity_id": {"type": "string", "minLength": 1},
+    "customer": {"type": "string", "minLength": 1},
+    "estimated_contract_value_usd": {"type": "number", "minimum": 0},
+    "criteria": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["state"],
+        "properties": {
+          "state": {"enum": ["confirmed", "partial", "unknown", "failed"]},
+          "evidence": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

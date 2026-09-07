@@ -4,6 +4,7 @@ import unittest
 from pathlib import Path
 
 from solution_factory.compiler import ContractError, compile_engagement
+from solution_factory.qualification import QualificationError, qualify
 
 
 FIXTURE = Path(__file__).parents[1] / "examples" / "vmware-to-azure-ai-platform.json"
@@ -48,6 +49,33 @@ class CompilerTests(unittest.TestCase):
         payload["weights"]["security"] = 0.9
         with self.assertRaisesRegex(ContractError, "weights"):
             compile_engagement(payload)
+
+    def test_partial_opportunity_requires_clarification(self):
+        payload=json.loads((FIXTURE.parent/"azure-migration-opportunity.json").read_text())
+        result=qualify(payload)
+        self.assertEqual(result["decision"],"CLARIFY")
+        self.assertEqual(result["qualification_score"],85.0)
+        self.assertEqual(len(result["customer_questions"]),2)
+
+    def test_complete_opportunity_is_pursued(self):
+        payload=json.loads((FIXTURE.parent/"azure-migration-opportunity.json").read_text())
+        for item in payload["criteria"].values(): item["state"]="confirmed"
+        result=qualify(payload)
+        self.assertEqual(result["decision"],"PURSUE")
+        self.assertEqual(result["qualification_score"],100.0)
+
+    def test_failed_hard_gate_declines_opportunity(self):
+        payload=json.loads((FIXTURE.parent/"azure-migration-opportunity.json").read_text())
+        payload["criteria"]["commercial_fit"]={"state":"failed","evidence":"Below minimum margin policy"}
+        result=qualify(payload)
+        self.assertEqual(result["decision"],"DECLINE")
+        self.assertIn("commercial_fit",result["failed_hard_gates"])
+
+    def test_unknown_criterion_is_rejected(self):
+        payload=json.loads((FIXTURE.parent/"azure-migration-opportunity.json").read_text())
+        payload["criteria"]["luck"]={"state":"confirmed"}
+        with self.assertRaisesRegex(QualificationError,"unknown criteria"):
+            qualify(payload)
 
 
 if __name__ == "__main__":

@@ -25,6 +25,8 @@ No third-party runtime dependency is required.
 ```bash
 python3 -m unittest discover -s tests -v
 python3 -m solution_factory.cli examples/vmware-to-azure-ai-platform.json --output generated
+python3 -m solution_factory.qualify_cli examples/azure-migration-opportunity.json \
+  --output generated/qualification.json
 ```
 
 The synthetic case evaluates three approaches to a VMware-to-Azure migration with an AKS-hosted AI-agent platform:
@@ -40,6 +42,12 @@ Generated artifacts:
 - `traceability.md` — every requirement connected to implementation and evidence;
 - `statement-of-work.md` — scoped commercial handoff.
 
+Before architecture compilation, `solution-qualify` performs deterministic
+pre-bid triage across urgency, budget, decision ownership, deadline, inventory,
+success metrics, delivery capacity and commercial fit. It returns `PURSUE`,
+`CLARIFY` or `DECLINE` plus the unresolved customer questions. Its score is a
+workflow gate, not a prediction of win probability or realized margin.
+
 ## What is implemented
 
 - typed requirement intake across business, platform, network, security, operations and commercial discovery;
@@ -51,6 +59,7 @@ Generated artifacts:
 - SHA-256 evidence receipt over the canonical decision;
 - proposal, SOW and traceability rendering;
 - six automated tests and CI artifact retention.
+- evidence-backed pre-bid qualification and customer-question generation;
 
 ## Reference decision
 
