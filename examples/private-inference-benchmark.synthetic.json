@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0",
+  "provenance": "synthetic_fixture",
+  "model": "Qwen/Qwen3-0.6B",
+  "requested": 30,
+  "concurrency": 2,
+  "succeeded": 30,
+  "failed": 0,
+  "successful_requests_per_s": 1.5,
+  "latency_p95_s": 1.4,
+  "ttft_p95_s": 0.8
+}

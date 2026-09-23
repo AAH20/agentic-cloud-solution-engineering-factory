@@ -1,0 +1,21 @@
+{
+  "engagement_id": "SYNTHETIC-PRIVATE-AI-001",
+  "customer": "Fictional Services Co",
+  "model": "Qwen/Qwen3-0.6B",
+  "deployment_name": "private-ai-pilot",
+  "region": "Customer-selected private cluster",
+  "required_rps": 1.0,
+  "max_p95_latency_s": 2.0,
+  "max_p95_ttft_s": 1.0,
+  "costs": {
+    "gpu_hourly_usd": "1.00",
+    "billable_hours_per_month": "730",
+    "gpu_count": 1,
+    "ops_hours_per_month": "12",
+    "ops_hourly_usd": "75.00",
+    "other_monthly_usd": "100.00",
+    "delivery_hours": "30",
+    "delivery_hourly_usd": "100.00",
+    "target_gross_margin_fraction": "0.30"
+  }
+}

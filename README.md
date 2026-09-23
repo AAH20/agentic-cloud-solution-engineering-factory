@@ -16,7 +16,9 @@ requirement → component → control → validation → cost → deliverable
 executive proposal + SOW + tamper-evident receipt
 ```
 
-> **Evidence boundary:** v0.1 is an executable, deterministic decision compiler operating on synthetic/customer-supplied JSON. It does not deploy cloud resources, discover a live estate, constitute legal/audit advice or prove customer savings. `implemented`, `simulated`, `modeled`, `contract` and `deployed` are deliberately distinct evidence classes.
+> **Evidence boundary:** The executable compiler operates on synthetic/customer-supplied JSON. It does not deploy cloud resources, discover a live estate, constitute legal/audit advice or prove customer savings. `implemented`, `simulated`, `modeled`, `contract` and `deployed` are deliberately distinct evidence classes.
+
+**New delivery slice:** [Private inference: deal to deployment](docs/PRIVATE_INFERENCE_DELIVERY.md) compiles a specific customer request and endpoint benchmark into a draft priced offer and, for passing operator-supplied measurements, a single-GPU Kubernetes handoff. The included benchmark is fictional and cannot produce a deployment manifest. No customer quote or cluster deployment is performed by this release.
 
 ## Run the reference engagement
 
@@ -27,6 +29,9 @@ python3 -m unittest discover -s tests -v
 python3 -m solution_factory.cli examples/vmware-to-azure-ai-platform.json --output generated
 python3 -m solution_factory.qualify_cli examples/azure-migration-opportunity.json \
   --output generated/qualification.json
+python3 -m solution_factory.private_inference_cli \
+  examples/private-inference-intake.json examples/private-inference-benchmark.synthetic.json \
+  --output /tmp/private-inference-offer
 ```
 
 The synthetic case evaluates three approaches to a VMware-to-Azure migration with an AKS-hosted AI-agent platform:
